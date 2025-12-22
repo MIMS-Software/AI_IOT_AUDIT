@@ -271,3 +271,7 @@ $RECYCLE.BIN/
 *.tar.gz
 *.rar
 *.7z
+# Backups and temp files
+docs/REQUIREMENTS_PHASES_CHECKLIST_UPDATED.md.backup
+docs/opencodetmp/
+.DS_Store
