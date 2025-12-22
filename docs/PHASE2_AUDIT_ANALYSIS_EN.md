@@ -1,7 +1,3 @@
-[← Back to Main](../README.md) | [Phase 1](PHASE1_AUDIT_ANALYSIS_EN.md) | **Phase 2** | [Phase 3](PHASE3_AUDIT_ANALYSIS_EN.md) | [Backend](BACKEND_AUDIT_ANALYSIS_EN.md) | [Frontend](FRONTEND-AUDIT-en.md) | [Requirements](REQUIREMENTS_PHASES_CHECKLIST.md)
-
----
-
 ## Phase 2 Core Functionality Implementation - Actual Code Status
 
 ### Visitor Management System

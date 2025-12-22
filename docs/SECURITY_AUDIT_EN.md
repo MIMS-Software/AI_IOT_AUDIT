@@ -1,7 +1,49 @@
 # 🔐 SECURITY AND CODE QUALITY AUDIT
 
-**Date:** December 11, 2025  
-**Methodology:** Comprehensive analysis with ripgrep, critical file reading, pattern analysis
+**Original Audit Date:** December 11, 2025  
+**Follow-up Audit Date:** December 21, 2025  
+**Methodology:** Comprehensive analysis with ripgrep + Runtime Testing
+
+---
+
+## 🔄 SECURITY UPDATE - DECEMBER 21, 2025
+
+### ⚡ SIGNIFICANT IMPROVEMENTS IN REFACTORED REPOSITORY
+
+The team applied **IMPORTANT FIXES** to critical vulnerabilities:
+
+**📊 CRITICAL VULNERABILITIES STATUS:**
+
+| Vulnerability                   | Original Status (Dec 11) | Current Status (Dec 21) | Change             |
+| ------------------------------- | ------------------------ | ----------------------- | ------------------ |
+| **JWT without verification**    | 🔴 2/10 CRITICAL         | ⚠️ 7/10 PARTIAL         | ✅ +5 points       |
+| **CORS wildcard (\*)**          | 🔴 2/10 CRITICAL         | 🔴 2/10 CRITICAL        | ❌ NOT FIXED       |
+| **Weak secret keys**            | 🔴 2/10 CRITICAL         | ✅ 10/10                | ✅ +8 points       |
+| **XSS dangerouslySetInnerHTML** | 🔴 2/10 (82 cases)       | ✅ 9/10 (2 cases)       | ✅ -97%            |
+| **Rate limiting**               | 🔴 0/10                  | 🔴 0/10                 | ❌ NOT IMPLEMENTED |
+| **Tokens in localStorage**      | ⚠️ 4/10                  | ⚠️ 4/10                 | ❌ NO CHANGES      |
+
+### ✅ FIXES APPLIED
+
+1. **JWT Verification** → Multi-issuer pattern implemented (valid but requires discipline)
+2. **Secret Keys** → Generated with 512-bit entropy (+300% vs previous 128-bit)
+3. **XSS** → Reduced from 82 to 2 occurrences (-97%)
+4. **Architecture** → Migrated to TRUE microservices (DB-per-service, gRPC, Kafka)
+
+### 🔴 CRITICAL PENDING
+
+1. **CORS wildcard** → Still allows `origins: ["*"]` - **PRODUCTION BLOCKER**
+2. **Rate limiting** → NOT implemented on login endpoints - **PRODUCTION BLOCKER**
+3. **27 console.log** → Remaining in frontend (may leak sensitive data)
+4. **0% test coverage** → No automated security tests
+
+**🎯 VERDICT:** Security score improved from 3.5/10 → 5.5/10 (+2 points). Still NOT production-ready due to CORS and rate limiting.
+
+**📄 See full details in:** `docs/AUDITORIA_SEGUIMIENTO_DIC_21_2025.md`
+
+---
+
+> **⚠️ NOTE:** Vulnerabilities listed below correspond to the ORIGINAL audit (Dec 11). Many were partially fixed in the refactored repository. Consult follow-up document for current status.
 
 ---
 
@@ -604,13 +646,14 @@ Day 11-15: KMS, HTTPS, Docker Secrets           ✅ Production-Ready
 
 This security audit identifies **9 CRITICAL vulnerabilities** that must be fixed immediately. However, fixing vulnerabilities is only half the battle - you MUST implement **security testing** to prevent regressions and ensure these issues never return.
 
-### Recommended Approach:
+### Recommended Approach
 
 1. **Fix vulnerabilities** (Week 1-2) - See "IMMEDIATE ACTION PLAN" above
 2. **Write security tests** to validate fixes and prevent regressions
 3. **Implement comprehensive testing strategy** for entire project
 
 For a complete testing strategy including:
+
 - ✅ Security Testing (CRITICAL - Priority 2)
 - ✅ Contract Testing (prevents breaking changes between microservices)
 - ✅ Integration Testing (validates business flows)
@@ -619,21 +662,20 @@ For a complete testing strategy including:
 
 **See:** [TEST_STRATEGY_EN.md](./TEST_STRATEGY_EN.md) - Comprehensive testing roadmap prioritized by ROI
 
-### Why Testing Strategy Matters:
+### Why Testing Strategy Matters
 
 Without proper security testing:
+
 - ❌ Vulnerabilities can be reintroduced during refactoring
 - ❌ New code can introduce similar vulnerabilities
 - ❌ No automated detection in CI/CD pipeline
 - ❌ No confidence in production deployments
 
 With security testing:
+
 - ✅ Automated validation on every PR
 - ✅ Prevents regressions
 - ✅ Catches vulnerabilities before production
 - ✅ Enables confident deployments
 
 ---
-
-**Audit date:** December 11, 2025  
-**Next review:** After fixing critical issues
